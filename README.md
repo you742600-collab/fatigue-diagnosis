@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -272,25 +271,35 @@
             margin-bottom: 30px;
         }
 
-        .result-type h3 {
-            font-size: 22px;
-            margin-bottom: 5px;
+        .result-type .subtitle {
+            font-size: 15px;
+            opacity: 0.95;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
-        .result-type .subtitle {
-            font-size: 14px;
-            opacity: 0.95;
-            margin-top: 10px;
-            line-height: 1.5;
+        .result-type h3 {
+            font-size: 26px;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .result-type .description {
             font-size: 13px;
             opacity: 0.9;
-            margin-top: 10px;
+            margin-top: 15px;
             line-height: 1.6;
-            padding-top: 10px;
+            padding-top: 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .character-image {
+            width: 150px;
+            height: 150px;
+            margin: 20px auto;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .radar-chart-container {
@@ -320,12 +329,13 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 5px;
-            font-size: 13px;
+            font-size: 12px;
             color: #555;
         }
 
         .score-bar-label .name {
             font-weight: bold;
+            flex: 1;
         }
 
         .score-bar-label .value {
@@ -439,6 +449,10 @@
 
             .slider-labels {
                 font-size: 10px;
+            }
+
+            .score-bar-label .name {
+                font-size: 11px;
             }
         }
     </style>
@@ -698,10 +712,10 @@
                 <div class="radar-chart-container">
                     <h4>📊 あなたのスコア</h4>
                     
-                    <div class="score-section-title">疲労の原因</div>
+                    <div class="score-section-title">あなたの疲労度レベル</div>
                     <div class="score-bars" id="fatigueScores"></div>
                     
-                    <div class="score-section-title">理想の状態</div>
+                    <div class="score-section-title">あなたの理想のコンディション</div>
                     <div class="score-bars" id="jobScores"></div>
                 </div>
 
@@ -893,10 +907,10 @@
             const resultKey = `${result.fatigueType}-${result.jobType}`;
             const data = resultData[resultKey];
 
-            // 結果タイプを表示
+            // 結果タイプを表示（順序を変更：subtitle → name → description）
             document.getElementById('resultType').innerHTML = `
-                <h3>${data.name}</h3>
                 <div class="subtitle">${data.subtitle}</div>
+                <h3>${data.name}</h3>
                 <div class="description">${data.description}</div>
             `;
 
@@ -927,9 +941,9 @@
 
             // スコアバーを表示（理想の状態）
             const jobNames = {
-                functional: '機能的ジョブ',
-                emotional: '感情的ジョブ',
-                social: '社会的ジョブ'
+                functional: '成果、効率、パフォーマンスを発揮したい',
+                emotional: '心理的な安定、安心感、心の平穏の追求',
+                social: '外見、役割、社会的評価を得たい'
             };
 
             let jobHTML = '';
@@ -966,19 +980,21 @@
 🌟 疲労診断ツール - 診断結果 🌟
 
 【あなたのタイプ】
-${data.name}
 ${data.subtitle}
+『${data.name}』
 
 ${data.description}
 
 📊 スコア
+【あなたの疲労度レベル】
 体の疲れ: ${result.scores.body}/10
 脳の疲れ: ${result.scores.brain}/10
 内臓の疲れ: ${result.scores.organ}/10
 
-機能的ジョブ: ${result.scores.functional}/10
-感情的ジョブ: ${result.scores.emotional}/10
-社会的ジョブ: ${result.scores.social}/10
+【あなたの理想のコンディション】
+成果、効率、パフォーマンスを発揮したい: ${result.scores.functional}/10
+心理的な安定、安心感、心の平穏の追求: ${result.scores.emotional}/10
+外見、役割、社会的評価を得たい: ${result.scores.social}/10
 
 😓 あなたの疲労の原因
 ${data.fatigueReason}
